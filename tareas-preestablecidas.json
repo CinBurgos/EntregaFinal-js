@@ -1,0 +1,62 @@
+[
+    {
+      "nombre": "Estudiar",
+      "categoria": "Educación",
+      "persona": "Abril",
+      "realizado": false,
+      "eliminado": false,
+      "fechaLimite": null,
+      "fechaRealizacion": null
+    },
+    {
+      "nombre": "Limpiar",
+      "categoria": "Hogar",
+      "persona": "Cintia",
+      "realizado": false,
+      "eliminado": false,
+      "fechaLimite": null,
+      "fechaRealizacion": null
+    },
+    {
+        "nombre": "Cortar pasto",
+        "categoria": "Hogar",
+        "persona": "Sergio",
+        "realizado": false,
+        "eliminado": false,
+        "fechaLimite": null,
+        "fechaRealizacion": null
+      },
+
+      {
+        "nombre": "Lavar el auto",
+        "categoria": "Hogar",
+        "persona": "Sergio",
+        "realizado": false,
+        "eliminado": false,
+        "fechaLimite": null,
+        "fechaRealizacion": null
+      },
+      
+      {
+      "nombre": "Pagar tarjetas",
+      "categoria": "Hogar",
+      "persona": "Cintia",
+      "realizado": false,
+      "eliminado": false,
+      "fechaLimite": null,
+      "fechaRealizacion": null
+    },
+    {
+        "nombre": "Limpiar habitacion",
+        "categoria": "Hogar",
+        "persona": "Abril",
+        "realizado": false,
+        "eliminado": false,
+        "fechaLimite": null,
+        "fechaRealizacion": null
+      }
+
+
+
+
+  ]

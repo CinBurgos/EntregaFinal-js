@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APP TO DO LIST</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rammetto+One&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="./styles/styles.css">
+</head>
+
+<body>
+
+
+    <div class="container">
+        <div class="perfil">
+            <h1>TaskEase</h1>
+            <div id="fecha"></div><br>
+            <h2>Hola, ¿cómo estás?</h2><br>
+            <p>Seré tu ayudante de memoria. Anota tus tareas a continuación.</p>
+        </div>
+        <div>
+            <button id="cargar-tareas" class="centrar-boton">Cargar Tareas Preestablecidas</button>
+        </div>
+
+        <div class="opciones">
+            <label for="tipo-lista">Tipo de Lista:</label>
+            <select id="tipo-lista">
+                <option value="diaria">Diaria</option>
+                <option value="evento">Evento Especial</option>
+            </select>
+            <input type="datetime-local" id="fecha-limite" style="display: none;">
+            <label for="categoria">Categoría:</label>
+            <select id="categoria">
+                <option value="hogar">Hogar</option>
+                <option value="estudio">Estudio</option>
+                <option value="trabajo">Trabajo</option>
+                <option value="compras">Compras</option>
+            </select>
+            <label for="persona">Asignar a:</label>
+            <input type="text" id="persona" placeholder="Nombre de la persona">
+
+        </div>
+        <div class="agregar-tarea">
+            <input type="text" id="input" placeholder="Agregar una tarea">
+            <i id="boton-agregar" class="fas fa-plus-circle"></i>
+        </div>
+
+        <div class="seccion-tarea">
+            <h3>Esto es lo que tienes pendiente:</h3>
+            <ul id="lista"></ul>
+
+        </div>
+
+        <div class="seccion-tarea">
+            <h3>Tareas Realizadas:</h3>
+            <ul id="realizadas-lista"></ul>
+
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@2.0.2/build/global/luxon.min.js"></script>
+    <script src="./scripts/main.js"></script>
+</body>
+
+</html>
