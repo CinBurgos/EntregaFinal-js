@@ -112,6 +112,8 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
+  
+ 
   // Botón para cargar tareas preestablecidas
   const cargarTareasBtn = document.querySelector("#cargar-tareas");
   cargarTareasBtn.addEventListener("click", () => {
@@ -156,49 +158,57 @@ document.addEventListener("DOMContentLoaded", () => {
   ////funcion eliminar tarea////
 
   function tareaEliminada(element) {
-    const id = element.id;
-
-    // Obtener el elemento de la lista
-    const taskElement = element.closest("li");
-
-    // Obtener la información de la tarea eliminada
-    const tareaEliminada = LIST[id];
-
-    // Eliminar el elemento de la lista visual
-    lista.removeChild(taskElement);
-
-    // Marcar la tarea como eliminada en el arreglo LIST
-    tareaEliminada.eliminado = true;
-
-    // Si la tarea estaba realizada, agregarla a la lista de tareas realizadas
-    if (tareaEliminada.realizado) {
-      const fechaHora = tareaEliminada.fechaLimite
-        ? luxon.DateTime.fromISO(tareaEliminada.fechaLimite).toFormat(
-            "dd-MM-yyyy HH:mm:ss"
-          )
-        : "Desconocida";
-
-      // Agregar la tarea eliminada a la lista de tareas realizadas
-      const tareaRealizada = {
-        nombre: tareaEliminada.nombre,
-        categoria: element.dataset.category,
-        persona: tareaEliminada.persona,
-        fechaRealizacion: luxon.DateTime.local().toISO(),
-      };
-      LIST_REALIZADAS.push(tareaRealizada);
-    localStorage.setItem("TAREAS_REALIZADAS", JSON.stringify(LIST_REALIZADAS)); // Guardar la lista de tareas realizadas actualizada
-
-      // Agregar el elemento a la lista visual de tareas realizadas
-      const realizadoElemento = `
-        <li>
-          <p>Tarea: ${tareaRealizada.nombre}</p>
-          <p>Categoría: ${tareaRealizada.categoria}</p>
-          <p>Persona: ${tareaRealizada.persona}</p>
-          <p>Fecha de realización: ${fechaHora}</p>
-        </li>
-      `;
-      realizadasLista.insertAdjacentHTML("beforeend", realizadoElemento);
+    if (element) { // Verificar si element está definido
+      const id = element.id;
+  
+      // Obtener el elemento de la lista
+      const taskElement = element.closest("li");
+  
+      // Obtener la información de la tarea eliminada
+      const tareaEliminada = LIST[id];
+  
+      // Eliminar el elemento de la lista visual
+      lista.removeChild(taskElement);
+  
+      // Verificar si la tarea está definida
+      if (tareaEliminada) {
+        // Marcar la tarea como eliminada en el arreglo LIST
+        tareaEliminada.eliminado = true;
+  
+        // Si la tarea estaba realizada, agregarla a la lista de tareas realizadas
+        if (tareaEliminada.realizado) {
+          const fechaHora = tareaEliminada.fechaLimite
+            ? luxon.DateTime.fromISO(tareaEliminada.fechaLimite).toFormat(
+                "dd-MM-yyyy HH:mm:ss"
+              )
+            : "Desconocida";
+  
+          // Agregar la tarea eliminada a la lista de tareas realizadas
+          const tareaRealizada = {
+            nombre: tareaEliminada.nombre,
+            categoria: element.dataset.category,
+            persona: tareaEliminada.persona,
+            fechaRealizacion: luxon.DateTime.local().toISO(),
+          };
+          LIST_REALIZADAS.push(tareaRealizada);
+          localStorage.setItem("TAREAS_REALIZADAS", JSON.stringify(LIST_REALIZADAS)); // Guardar la lista de tareas realizadas actualizada
+  
+          // Agregar el elemento a la lista visual de tareas realizadas
+          const realizadoElemento = `
+            <li>
+              <p>Tarea: ${tareaRealizada.nombre}</p>
+              <p>Categoría: ${tareaRealizada.categoria}</p>
+              <p>Persona: ${tareaRealizada.persona}</p>
+              <p>Fecha de realización: ${fechaHora}</p>
+            </li>
+          `;
+          realizadasLista.insertAdjacentHTML("beforeend", realizadoElemento);
+        }
+      }
     }
+  
+  
+  
 
    
   Swal.fire({
@@ -207,8 +217,8 @@ document.addEventListener("DOMContentLoaded", () => {
     icon: 'warning',
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Si ya la realice!!'
+    cancelButtonColor: '#af0560' ,
+    confirmButtonText: 'Si ya la hice!!'
   }).then((result) => {
     if (result.isConfirmed) {
       Swal.fire(
@@ -360,6 +370,9 @@ realizadasLink.addEventListener("click", () => {
 pendientesLink.addEventListener("click", () => {
   realizadasLista.style.display = "none";
 });
+  
+
+  
   // Cargar tareas pendientes desde Local Storage
   const data = localStorage.getItem("TODO");
   if (data) {
