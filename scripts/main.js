@@ -19,6 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let LIST_REALIZADAS = [];
   let id = 0;
   let tareasPorPersona = {};
+  let dataXJSON = `{"p":"value"}`;
+  let dataX = JSON.parse(dataXJSON);
 
 
 
