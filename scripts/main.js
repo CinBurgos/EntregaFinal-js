@@ -19,8 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let LIST_REALIZADAS = [];
   let id = 0;
   let tareasPorPersona = {};
-  let dataXJSON = `{"p":"value"}`;
-  let dataX = JSON.parse(dataXJSON);
+  
 
 
 
@@ -33,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     day: "numeric",
   }).toUpperCase();
 
-  // Función para agregar tarea
+ // Función para agregar tarea
   function agregarTarea(
     tarea,
     categoria,
@@ -48,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const REALIZADO = realizado ? check : uncheck;
+    const REALIZADO = realizado ? "realizado" : "";
     const LINE = realizado ? lineThrough : "";
 
     const fechaRealizacionTexto = fechaRealizacion
@@ -83,24 +82,29 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     localStorage.setItem("TODO", JSON.stringify(LIST));
   }
-
+ 
   // Función para cargar tareas pendientes
   function cargarTareasPendientes(listaTareasPendientes) {
     lista.innerHTML = "";
     listaTareasPendientes.forEach((item) => {
       if (!item.eliminado) {
-        agregarTarea(
-          item.nombre,
-          item.categoria,
-          item.persona,
-          item.id,
-          item.realizado,
-          item.eliminado
-        );
+        // Configura el atributo data en función del estado "realizado"
+        const dataAtributo = item.realizado ? 'data="realizado"' : 'data="no-realizado"';
+        
+        const realizadoIcono = item.realizado ? "fa-check-circle" : "fa-circle";
+        
+        const elemento = `
+          <li>
+              <i class="far ${realizadoIcono}" ${dataAtributo} id="${item.id}"></i>
+              <p class="text">${item.nombre}</p>
+              <i class="fas fa-trash de" data="eliminado" id="${item.id}"></i>
+          </li>
+        `;
+        
+        lista.insertAdjacentHTML("beforeend", elemento);
       }
     });
   }
-
   // Función para cargar tareas preestablecidas desde el archivo JSON
   function cargarTareasPreestablecidas() {
     fetch("tareas-preestablecidas.json")
@@ -123,26 +127,33 @@ document.addEventListener("DOMContentLoaded", () => {
     cargarTareasBtn.disabled = true; // Deshabilitar el botón después de cargar las tareas
   });
 
-  // Función para marcar tarea como realizada
   function tareaRealizada(element) {
     const id = element.id;
-    LIST[id].realizado = !LIST[id].realizado;
-    if (LIST[id].realizado) {
-      LIST[id].fechaRealizacion = luxon.DateTime.local().toISO();
+  
+    // Verifica si el ID es válido y está dentro del rango de LIST
+    if (id >= 0 && id < LIST.length) {
+      LIST[id].realizado = !LIST[id].realizado;
+      if (LIST[id].realizado) {
+        LIST[id].fechaRealizacion = luxon.DateTime.local().toISO();
+      } else {
+        LIST[id].fechaRealizacion = null;
+      }
+  
+      // Actualizar la lista visual
+      const taskElement = element.parentNode;
+      const textElement = taskElement.querySelector(".text");
+      if (textElement) {
+        textElement.classList.toggle(lineThrough);
+      }
+  
+      // Agregar o remover el ícono de verificación
+      element.classList.toggle(check);
+      element.classList.toggle(uncheck);
+  
+      localStorage.setItem("TODO", JSON.stringify(LIST));
     } else {
-      LIST[id].fechaRealizacion = null;
+      console.error("ID de tarea no válido: ", id);
     }
-
-    // Actualizar la lista visual
-    const taskElement = element.parentNode;
-    const textElement = taskElement.querySelector(".text");
-    textElement.classList.toggle(lineThrough);
-
-    // Agregar o remover el ícono de verificación
-    element.classList.toggle(check);
-    element.classList.toggle(uncheck);
-
-    localStorage.setItem("TODO", JSON.stringify(LIST));
   }
 
   // Función para agregar tarea realizada
@@ -290,13 +301,14 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   lista.addEventListener("click", function (event) {
     const element = event.target;
-    const elementData = element.attributes.data
-      ? element.attributes.data.value
-      : "";
-
-    if (elementData === "realizado") {
-      tareaRealizada(element);
-      localStorage.setItem("TODO", JSON.stringify(LIST));
+  
+    // Verificar si el elemento tiene la clase "realizado"
+    if (element.classList.contains("realizado")) {
+      tareaRealizada(element); // Marcar como no realizado
+    } else if (element.classList.contains("fa-check-circle")) {
+      tareaRealizada(element); // Marcar como realizado
+    } else if (element.classList.contains("fa-circle")) {
+      tareaRealizada(element); // Marcar como realizado
     } else if (elementData === "eliminado") {
       tareaEliminada(element);
       localStorage.setItem("TODO", JSON.stringify(LIST));
